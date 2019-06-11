@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>vue2</title>
+  </head>
+  <body>
+
+    <div id="app" class="container" style="background-color: #eeeeee; border: 3px solid">
+      <div class="row">
+        <h3 style="margin-left: auto; margin-right: auto; color: #000a6b;">Campeonato Brasileiro Serie A 2018</h3>
+        <br/><br/>
+
+        <div v-if="view == 'tabela'" style="width: 100%;">
+          <a class="btn btn-primary" @click="createNovoJogo" style="margin: 10px; color: #eeeeee;">Novo Jogo</a>
+
+            <input type="text" class="form-control" v-model="filter">
+
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th v-for="coluna in colunas">
+                <a href="#" @click="sortBy(coluna)">{{ coluna | ucWords}}</a>
+              </th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr v-for="time in timesFiltered">
+                  <td>
+                    <img :src="time.escudo" style="height: 50px; width: 50px;">
+                    <strong>{{ time.nome }}</strong>
+                  </td>
+                  <td>{{ time.pontos }}</td>
+                  <td>{{ time.gm }}</td>
+                  <td>{{ time.gs }}</td>
+                  <td>{{ time | saldo }}</td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div v-if="view == 'novoJogo'">
+        <form class="form-inline">
+          <div class="row" style="margin-left: auto; margin-right: auto">
+            <div class="form-group">
+              <input type="text" class="form-control" v-model="novoJogo.casa.gols" style="margin: 5px;" @keyup.enter="fimJogo">
+              <label class="control-label">
+                <h5>{{ novoJogo.casa.time.nome }}</h5>
+                <img :src="novoJogo.casa.time.escudo" style="height: 50px; width: 50px; margin: 5px;">
+              </label>
+            </div>
+            <span>X</span>
+            <div class="form-group">
+              <label class="control-label">
+                <img :src="novoJogo.fora.time.escudo" style="height: 50px; width: 50px; margin: 5px;">
+                <h5>{{ novoJogo.fora.time.nome }}</h5>
+              </label>
+              <input type="text" class="form-control" v-model="novoJogo.fora.gols" style="margin: 5px;">
+            </div>
+            <button type="button" class="btn btn-primary" @click="fimJogo" style="margin-left: 15px; height: 50px;">Fim de Jogo</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script src="/dist/build.js"></script>
+  </body>
+</html>
+</html>
+
